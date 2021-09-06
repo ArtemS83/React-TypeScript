@@ -1,60 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
-import shortid from 'shortid';
-
-interface ITodo {
-  id: string;
-  text: string;
-  completed: boolean;
-}
-
-const getInitialTodoState = () => {
-  const savedTodos = localStorage.getItem('todosTS');
-
-  return savedTodos ? JSON.parse(savedTodos) : [];
-};
+import React from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import TodosPage from './pages/TodosPage';
+import AboutUsPage from './pages/AboutUsPage';
 
 const App: React.FC = () => {
-  const [todos, setTodos] = useState<ITodo[]>(getInitialTodoState);
-
-  useEffect(() => {
-    localStorage.setItem('todosTS', JSON.stringify(todos));
-  }, [todos]);
-
-  const addTodoHandler = (text: string) => {
-    const newTodo: ITodo = {
-      id: shortid.generate(),
-      text,
-      completed: false,
-    };
-    setTodos(prevTodos => [newTodo, ...prevTodos]);
-  };
-
-  const toggleCompletedHandler = (todoId: string) => {
-    setTodos(prevTodos =>
-      prevTodos.map(todo =>
-        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
-  };
-
-  const deleteTodoHandler = (todoId: string) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== todoId));
-  };
-
   return (
     <>
-      <Navbar />
-      <div className="container">
-        <TodoForm onSubmit={addTodoHandler} />
-        <TodoList
-          todos={todos}
-          onDeleteTodo={deleteTodoHandler}
-          onToggleCompleted={toggleCompletedHandler}
-        />
-      </div>
+      <HashRouter basename="/">
+        <Navbar />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={TodosPage} />
+            <Route path="/todos" component={TodosPage} />
+            <Route path="/about" component={AboutUsPage} />
+          </Switch>
+        </div>
+      </HashRouter>
     </>
   );
 };

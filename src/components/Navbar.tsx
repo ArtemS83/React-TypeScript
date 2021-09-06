@@ -1,21 +1,28 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
-export const Navbar: React.FunctionComponent = () => {
+const Navbar: React.FunctionComponent = () => {
   return (
     <nav>
       <div className="nav-wrapper lime accent-4 px1">
-        <a href="/" className="brand-logo">
+        <Link to="/" className="brand-logo">
           React+TS
-        </a>
+        </Link>
         <ul className="right hide-on-med-and-down">
           <li>
-            <a href="/">Todos</a>
+            <NavLink to="/todos" activeClassName="activeLink">
+              Todos
+            </NavLink>
           </li>
           <li>
-            <a href="/">About us</a>
+            <NavLink to="/about" activeClassName="activeLink">
+              About us
+            </NavLink>
           </li>
         </ul>
       </div>
     </nav>
   );
 };
+
+export default Navbar;
