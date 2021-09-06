@@ -17,6 +17,7 @@ const TodoForm: React.FC<ITodoFormProps> = ({ onSubmit }) => {
 
   const handelForm = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    if (text.trim().length === 0) return;
     // console.log(ref.current!.value);
     // console.log(ref.current!.isConnected); // true or false
     // ref.current!.value /= ''; // setText('');
